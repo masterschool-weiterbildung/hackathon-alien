@@ -1,20 +1,19 @@
 import requests
 from bs4 import BeautifulSoup
-import csv
+import random
+
 
 def fetch_ufo_data():
     url = "https://nuforc.org/subndx/?id=all"
     response = requests.get(url)
     if response.status_code != 200:
-        print(f"Error: Unable to fetch data (status code {response.status_code})")
-        return []
+        return f"Error: Unable to fetch data (status code {response.status_code}) - don't panic!"
 
     soup = BeautifulSoup(response.text, "html.parser")
     table = soup.find("table")
 
     if not table:
-        print("Error: Unable to locate the sightings table on the page")
-        return []
+        return "Error: Unable to locate the sightings table on the page - don't panic!"
 
     rows = table.find_all("tr")[1:]
     data = []
@@ -27,48 +26,60 @@ def fetch_ufo_data():
     return data
 
 
-def display_ufo_data(data):
+def format_ufo_data(data, max_sightings=3, randomize=True):
+    """Formatting reports with random data"""
     if not data:
-        print("No data to display.")
-        return
+        return "No UFO sightings data available - don't panic!"
 
-    headers = [
-        "Status", "Date/Time", "City", "State", "Country",
-        "Shape", "Description", "Reported Date", "Media", "Explanation"
-    ]
+    if randomize:
+        random.shuffle(data)
 
-    # Print formatted table header
-    print(f"{headers[0]:<10}{headers[1]:<20}{headers[2]:<15}{headers[3]:<5}{headers[4]:<10}{headers[5]:<10}{headers[6]:<50}{headers[7]:<15}{headers[8]:<10}{headers[9]:<10}")
-    print("-" * 130)
+    formatted_sightings = []
+    for row in data[:max_sightings]:
+        date_time = row[1]
+        city = row[2]
+        country = row[4]
+        # shape = row[5]
+        description = row[6]
 
-    # Print each row of data
-    for row in data[:3]:  # <- CHOSE HOW MANY ROWS TO DISPLAY .. MAYBE 1 FOR SMS
-        print(f"{row[0]:<10}{row[1]:<20}{row[2]:<15}{row[3]:<5}{row[4]:<10}{row[5]:<10}{row[6]:<50}{row[7]:<15}{row[8]:<10}{row[9]:<10}")
+        formatted_sighting = f"Date/Time: {date_time}, City: {city} Country: {country}, Description: {description}"
+        formatted_sightings.append(formatted_sighting)
+
+    return "\n".join(formatted_sightings)
 
 
-def save_to_csv(data, filename="ufo_sightings.csv"):
-    headers = [
-        "Status", "Date/Time", "City", "State", "Country",
-        "Shape", "Description", "Reported Date", "Media", "Explanation"
-    ]
 
-    # with open(filename, "w", newline="", encoding="utf-8") as csvfile:
-    #     writer = csv.writer(csvfile)
-    #     writer.writerow(headers)
-    #     writer.writerows(data)
-    # print(f"Data successfully saved to {filename}")
+# def format_ufo_data(data, max_sightings=3):
+    """Classic Format of Reports from data"""
+    # if not data:
+    #     return "No UFO sightings data available - don't panic!"
+    #
+    # formatted_sightings = []
+    # for row in data[:max_sightings]:
+    #     date_time = row[1]
+    #     city = row[2]
+    #     shape = row[5]
+    #     description = row[6]
+    #
+    #     formatted_sighting = f"Date/Time: {date_time}, City: {city}, Shape: {shape}, Description: {description}"
+    #     formatted_sightings.append(formatted_sighting)
+    #
+    # return "\n".join(formatted_sightings)
+
 
 
 def main():
     # print("Fetching UFO sightings data...")
     ufo_data = fetch_ufo_data()
 
-    print("\nHide! Latest UFO sightings: \n")
-    display_ufo_data(ufo_data)
+    if isinstance(ufo_data, str):
+        print(ufo_data)
+        return
 
-    # save_to_csv_choice = input("\nDo you want to save the data to a CSV file? (yes/no): ").lower()
-    # if save_to_csv_choice in ["yes", "y"]:
-    #     save_to_csv(ufo_data)
+    condensed_data = format_ufo_data(ufo_data)
+    print("\nPrepare yourself! These UFO sightings are real: \n")
+    print(condensed_data)
+
 
 
 if __name__ == "__main__":
