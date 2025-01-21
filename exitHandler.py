@@ -1,16 +1,15 @@
-async def send_exit_message(response):
+async def send_exit_message(message):
     """
-    Sends an exit/goodbye message to the provided phone number.
+    Generate an exit message when user sends 'exit'.
     
     Args:
-        phone_number (str): The phone number to send the message to
+        message (str): The message received from the user
         
     Returns:
-        str: The goodbye message text
+        str: A farewell message if 'exit' is in the message, empty string otherwise
     """
-    
     sms_text = ""
-    if "exit" in response.lower():
+    if "exit" in message.lower():
         sms_text = (
             "👋 Thanks for exploring the *Alien Abduction Guide*! 🛸\n\n"
             "We hope you enjoyed your cosmic journey. Stay safe out there "
