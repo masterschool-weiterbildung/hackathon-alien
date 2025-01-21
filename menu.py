@@ -48,8 +48,8 @@ def process_selection(number, selection):
 
 
 def main():
-    # show_menu("491795213992")
-    diplomatic_tips("491795213992")
+    show_menu("4915735156801")
+    diplomatic_tips("4915735156801")
 
 
 if __name__ == "__main__":
