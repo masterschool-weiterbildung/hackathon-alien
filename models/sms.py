@@ -15,7 +15,13 @@ class SMS(BaseModel):
     created_at: Mapped[datetime] = mapped_column(DateTime, nullable=False)
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), nullable=False)
 
-    user: Mapped["User"] = relationship(back_populates="completed_sms")
+    user: Mapped["User"] = relationship(
+        back_populates="completed_sms",
+        lazy="joined"
+    )
 
     def __repr__(self):
         return f"<SMS id={self.id} message={self.message} created_at={self.created_at}>"
+
+    def __eq__(self, other):
+        return self.id == other.id and self.message == other.message and self.created_at == other.created_at

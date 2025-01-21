@@ -9,11 +9,17 @@ from models.user import User
 from models.sms import SMS
 
 
-if not os.path.exists("data/"):
-    os.makedirs("data/")
-engine = create_engine("sqlite:///data/db.sqlite")
-User.metadata.create_all(engine)
-SMS.metadata.create_all(engine)
+engine = None
+
+
+def database_setup(db_file: str = "db.sqlite") -> None:
+    """ Set up the database. """
+    global engine
+    if not os.path.exists("data/"):
+        os.makedirs("data/")
+    engine = create_engine(f"sqlite:///data/{db_file}")
+    User.metadata.create_all(engine)
+    SMS.metadata.create_all(engine)
 
 
 def create_user(phone_number: int) -> User:
@@ -22,6 +28,7 @@ def create_user(phone_number: int) -> User:
         user = User(phone_number=phone_number)
         session.add(user)
         session.commit()
+        session.refresh(user)
         return user
 
 
@@ -49,14 +56,17 @@ def add_completed_sms_to_user(user: User, message: str, created_at: datetime) ->
         sms = SMS(message=message, created_at=created_at, user=user)
         session.add(sms)
         session.commit()
+        session.refresh(sms)
         return sms
 
 
-def get_completed_sms_by_number(phone_number: int) -> list[Type[SMS]]:
+def get_completed_sms_by_number(phone_number: int) -> list[SMS]:
     """ Get all completed SMS messages for a user by their phone number. """
     with Session(engine) as session:
         user = get_user(phone_number)
-        return session.query(SMS).filter_by(user=user).all()
+        if user:
+            return session.query(SMS).filter_by(user=user).all()
+        return []
 
 
 if __name__ == "__main__":
