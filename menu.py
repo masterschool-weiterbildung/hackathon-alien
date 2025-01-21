@@ -22,16 +22,13 @@ def process_selection(number, selection):
         # Call function to handle this option
 
     elif selection == "2":
-        send_sms_number([{number: "You selected: Weather on Mars."}])
-
-    elif selection == "3":
         send_sms_number([{number:  "You selected: Klingon Translator."}])
         # Call function to translate messages
 
-    elif selection == "4":
+    elif selection == "3":
         send_sms_number([{number:  "You selected: API ISS Information."}])
 
-    elif selection == "5":
+    elif selection == "4":
         send_sms_number([{number: "You selected: Exit. Goodbye!"}])
     else:
         send_sms_number([{number: "❌ Invalid selection. Please try again."}])
