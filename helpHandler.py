@@ -1,4 +1,4 @@
-async def get_response_text(response):
+async def help_handler(response):
     """
     Extracts text content from an HTTP response.
     
