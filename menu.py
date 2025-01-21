@@ -29,7 +29,7 @@ def process_selection(number, selection):
 
     if selection == "1":
         send_sms(number, "You selected: Diplomatic Tips & Tricks.")
-        # Call function to handle this option
+        diplomatic_tips(number)
 
     elif selection == "2":
         send_sms(number, "You selected: Weather on Mars.")
