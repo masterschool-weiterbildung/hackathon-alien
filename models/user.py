@@ -14,6 +14,7 @@ class User(BaseModel):
 
     completed_sms: Mapped[List["SMS"]] = relationship(
         back_populates="user",
+        lazy="joined",
         cascade="all, delete-orphan"
     )
 
