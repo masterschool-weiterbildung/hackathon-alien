@@ -1,4 +1,5 @@
-import request_iss_data
+from exitHandler import send_exit_message
+from request_iss_data import iss_tracker
 from api import send_sms_number
 
 
@@ -38,11 +39,21 @@ def process_selection(number, selection):
 
 
     elif selection == "3":
-        send_sms_number([{number: "You selected: API ISS Information."}])
-
+        # We should not send multiple SMS for one entry.
+        # send_sms_number([{number: "You selected: API ISS Information."}])
+        text = "Convince your alien abductors to drop you off at the nearest space station: \n"
+        iss_data = iss_tracker()
+        if "error" in iss_data:
+            text += iss_data["error"]
+        else:
+            text += (
+                f"The ISS is currently over {iss_data['location_name']} at Latitude: {iss_data['latitude']}, "
+                f"Longitude: {iss_data['longitude']}"
+            )
+        send_sms_number([{number: text}])
 
     elif selection == "4":
-        send_sms_number([{number: "You selected: Exit. Goodbye!"}])
+        send_sms_number([{number: send_exit_message("exit")}])
     else:
         send_sms_number([{number: "❌ Invalid selection. Please try again."}])
 
