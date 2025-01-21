@@ -1,4 +1,4 @@
-from main import send_sms
+from utility import send_sms
 
 # Function to show the menu to the user
 
@@ -11,6 +11,18 @@ def show_menu(number):
     5. Exit ("I am OK")
     """
     send_sms(number, "Welcome! Please select an option:\n" + menu)
+
+def diplomatic_tips(number):
+    tips = """
+    Diplomatic Tips & Tricks:
+    1. **First Contact**: "Do not comment on their glowing eyes—it’s a sensitive topic."
+    2. **On Ship**: "Don't touch glowing buttons, unless you enjoy space roulette."
+    3. **Escape**: "Offer a shiny object as a distraction."
+    4. **Space Etiquette**: "Never ask about their home planet’s food—unless you’re ready to try the unidentifiable stew."
+    5. **In a Crisis**: "If they offer you a seat, always sit—unless it's an inflatable chair that might deflate under pressure."
+    6. **Negotiation**: "When dealing with alien species, avoid talking about the weather—it's always a sensitive issue."
+    """
+    send_sms(number, tips)
 
 def process_selection(number, selection):
     """Handle the user’s menu selection"""
