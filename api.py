@@ -204,12 +204,3 @@ def creates_threads(numbers, sms_queue, worker):
         sms_queue.put((number))
     # Wait for all messages to be processed
     sms_queue.join()
-
-
-def main():
-    numbers = [DEFAULT_NUMBER]
-    register_phone_to_team(numbers)
-
-
-if __name__ == '__main__':
-    main()
