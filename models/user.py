@@ -19,3 +19,6 @@ class User(BaseModel):
 
     def __repr__(self):
         return f"<User id={self.id} phone_number={self.phone_number}>"
+
+    def __eq__(self, other):
+        return self.id == other.id and self.phone_number == other.phone_number
