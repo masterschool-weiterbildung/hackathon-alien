@@ -5,10 +5,10 @@ from api import send_sms_number
 # Function to show the menu to the user
 # Only this version work
 
-def show_menu(number):
-    menu = "Welcome, Space Traveler!\n\n1. Diplomacy Tips\n2.Klingon Translator\n3.ISS Data\n4.Exit"
-    send_sms_number([{number: menu}])
-
+# def show_menu(number):
+#     menu = "Welcome, Space Traveler!\n\n1. Diplomacy Tips\n2.Klingon Translator\n3.ISS Data\n4.Exit"
+#     send_sms_number([{number: menu}])
+#
 
 # def show_menu(number):
 #     menu = ("Welcome, Space Traveler!\nReply with:\n1. Diplomacy Tips\n2. Klingon Translator\n3. ISS Data\n4. Exit"
@@ -32,23 +32,18 @@ def show_menu(number):
 #
 #     send_sms_number([{number: menu}])
 
-# def show_menu(number):
-#     menu = ("===========================\n"
-#         "🌌**Welcome, Space Traveler!** 🌌\n"
-#         "===========================\n"
-#         "Please choose an option:\n"
-#         "1️⃣ **Diplomatic Tips & Tricks**\n"
-#         "- Learn how to navigate space diplomacy with humor!\n"
-#         "2️⃣ **Weather on Mars**\n"
-#         "- Get the latest weather updates from the Red Planet.\n"
-#         "3️⃣ **Klingon Translator**\n"
-#         "- Ready to speak like a Klingon? Translate your message here.\n"
-#         "4️⃣ **API ISS Information**\n"
-#         "- Get real-time data about the International Space Station (ISS).\n"
-#         "5️⃣ **Exit ('I am OK')**\n"
-#         "- Leave the space adventure. We hope to see you again soon!")
-#
-#     send_sms_number([{number: menu}])
+def show_menu(number):
+    menu = (
+        "**Welcome, Space Traveler!**\n"
+        "===========================\n"
+        "Please choose an option:\n"
+        "1**Diplomatic Tips & Tricks**\n"
+        "2**Weather on Mars**\n"
+        "3**Klingon Translator**\n"
+        "4**API ISS Information**\n"
+        "5**Exit ('I am OK')**\n")
+
+    send_sms_number([{number: menu}])
 
 def diplomatic_tips(number):
     tips = ("Diplomatic Tips:\n1.Don’t comment on glowing eyes.\n2.Avoid touching glowing buttons."
