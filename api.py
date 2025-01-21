@@ -121,7 +121,7 @@ class SMSAPI():
             raise ValueError
 
 
-def register_phone_to_team(numbers: list, team_name):
+def register_phone_to_team(numbers: list):
     # Queue for SMS tasks
     sms_queue = Queue()
     # Instantiate the SMSAPI Object
@@ -132,15 +132,15 @@ def register_phone_to_team(numbers: list, team_name):
             task = sms_queue.get()
             if task is None:
                 break
-            to_number, team_name = task
+            to_number = task
             print(sms_ap.send_sms_to_register_phone_to_team(to_number,
-                                                            team_name))
+                                                            TEAM_NAME))
             sms_queue.task_done()
 
-    creates_threads(numbers, sms_queue, team_name, worker)
+    creates_threads(numbers, sms_queue, worker)
 
 
-def unregister_phone_to_team(numbers: list, team_name):
+def unregister_phone_to_team(numbers: list):
     # Queue for SMS tasks
     sms_queue = Queue()
     # Instantiate the SMSAPI Object
@@ -151,12 +151,12 @@ def unregister_phone_to_team(numbers: list, team_name):
             task = sms_queue.get()
             if task is None:
                 break
-            to_number, team_name = task
+            to_number = task
             print(sms_ap.send_sms_to_unregister_phone_to_team(to_number,
-                                                              team_name))
+                                                              TEAM_NAME))
             sms_queue.task_done()
 
-    creates_threads(numbers, sms_queue, team_name, worker)
+    creates_threads(numbers, sms_queue, worker)
 
 
 def send_sms_number(numbers: list[dict]):
@@ -194,13 +194,13 @@ def creates_threads_sending(numbers, sms_queue, worker):
     sms_queue.join()
 
 
-def creates_threads(numbers, sms_queue, team_name, worker):
+def creates_threads(numbers, sms_queue, worker):
     # Start worker threads
     for _ in range(len(numbers)):
         thread = threading.Thread(target=worker, daemon=True)
         thread.start()
     # Add SMS tasks to the queue
     for number in numbers:
-        sms_queue.put((number, team_name))
+        sms_queue.put((number))
     # Wait for all messages to be processed
     sms_queue.join()
