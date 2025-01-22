@@ -1,4 +1,4 @@
-async def send_exit_message(message):
+def send_exit_message(message):
     """
     Generate an exit message when user sends 'exit'.
     
@@ -16,4 +16,4 @@ async def send_exit_message(message):
             "and remember - the truth is out there! ✨🌠\n\n" 
             "Text 'Hi' anytime to start a new adventure! 🚀"
         )
-    return await sms_text
+    return sms_text
