@@ -1,11 +1,10 @@
-# ISS Tracker
-# Get ISS Pass Alerts
 import requests
 from geopy.geocoders import Nominatim
 from geopy.exc import GeocoderTimedOut, GeopyError
 
 
-def iss_tracker():
+def iss_tracker() -> dict:
+    """ fetches data from the ISS website and return a dictionary with current location data """
     url = "http://api.open-notify.org/iss-now.json"
     try:
         response = requests.get(url, timeout=5)
@@ -14,9 +13,9 @@ def iss_tracker():
         position = data["iss_position"]
         latitude = float(position['latitude'])
         longitude = float(position['longitude'])
-    except (requests.exceptions.RequestException, KeyError) as e:
+    except (requests.exceptions.RequestException, KeyError):
         return {
-            "error": f"Failed to fetch ISS data: {e} - don't panic!"
+            "error": f"Failed to fetch ISS data - don't panic! - please try again later"
         }
 
     geolocator = Nominatim(user_agent="alien-abduction-guide")
@@ -34,7 +33,6 @@ def iss_tracker():
 
 
 def main():
-
     print("Convince your alien abductors to drop you off at the nearest space station: \n")
     iss_data = iss_tracker()
     if "error" in iss_data:
@@ -48,20 +46,4 @@ def main():
 if __name__ == "__main__":
     main()
 
-
-
-#BASIC VERSION WITHOUT LOCATION NAME
-# def iss_tracker():
-#     url = "http://api.open-notify.org/iss-now.json"
-#     response = requests.get(url)
-#
-#     if response.status_code == 200:
-#         data = response.json()
-#         position = data["iss_position"]
-#         print(f"The ISS is currently over Latitude: {position['latitude']}, Longitude: {position['longitude']}.")
-#     else:
-#         print(f"Error fetching ISS location: {response.status_code} - don't panic")
-#
-#
-# iss_tracker()
 
