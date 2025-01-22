@@ -5,19 +5,21 @@ from request_planet_info import give_planet_data
 from scrape_ufo_sighting import fetch_ufo_data, format_ufo_data
 
 
-# Function to show the menu to the user
-def show_menu(number):
+def show_menu(number: str) -> None:
+    """ Function to show the menu to the user """
     menu = ("Welcome, Space Traveler!\n\nPlease choose an option:\n\n"
             "1. **Planet Information**\n- Get information about planets in the solar system.\n\n"
             "2. **Romulan Dictionary**\n- Translate words into Romulan.\n\n"
             "3. **API ISS Information**\n- Get real-time data about the International Space Station (ISS).\n\n"
             "4. **UFO Sightings**\n- Get the latest UFO sightings data.\n\n"
-            "9. **Exit ('I am OK')**\n- Leave the space adventure. We hope to see you again soon!")
+            "9. **Exit ('I am OK')**\n- Leave the space adventure. We hope to see you again soon!\n\n\n"
+            "DON'T PANIC")
 
     send_sms_number([{number: menu}])
 
 
-def diplomatic_tips(number):
+def diplomatic_tips(number: str) -> None:
+    """ sends diplomatic tips to the number """
     tips = ("Diplomatic Tips:\n\n"
             "1. Don’t comment on glowing eyes.\n\n"
             "2. Avoid touching glowing buttons.\n\n"
@@ -29,8 +31,8 @@ def diplomatic_tips(number):
     send_sms_number([{number: tips}])
 
 
-def process_selection(number, selection):
-    """Handle the user’s menu selection"""
+def process_selection(number: str, selection: str) -> None:
+    """ Handle the user’s menu selection """
     if selection == "1":
         send_sms_number([{number: give_planet_data()}])
 

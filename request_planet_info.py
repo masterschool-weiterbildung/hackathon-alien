@@ -1,8 +1,9 @@
 import requests
 
 
-def get_solar_system_body(body_id):
-    url = f"https://api.le-systeme-solaire.net/rest/bodies/{body_id}"
+def get_solar_system_body(planet_name: str) -> dict or None:
+    """ fetch planet data by name """
+    url = f"https://api.le-systeme-solaire.net/rest/bodies/{planet_name}"
     response = requests.get(url)
     if response.status_code == 200:
         return response.json()
@@ -11,7 +12,8 @@ def get_solar_system_body(body_id):
         return None
 
 
-def get_all_planets():
+def get_all_planets() -> list:
+    """ fetches the data via API request and returns the info """
     url = "https://api.le-systeme-solaire.net/rest.php/bodies"
     response = requests.get(url)
     if response.status_code == 200:
@@ -22,7 +24,9 @@ def get_all_planets():
         print(f"Error: {response.status_code}")
         return []
 
-def give_planet_data():
+
+def give_planet_data() -> str:
+    """ structures the data in a formatted output """
     planets = get_all_planets()
 
     planet_info = []

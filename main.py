@@ -1,17 +1,17 @@
-import datetime
 from datetime import datetime
 import time
 
 from api import SMSAPI
 from db import get_user, database_setup, add_completed_sms_to_user
 from fetch_romulan_dict import english_to_romulan
-from menu import show_menu, diplomatic_tips, process_selection
+from menu import show_menu, process_selection
 from utility import TEAM_NAME
 
 sms_api = SMSAPI()
 
 
-def parse_timestamp(timestamp):
+def parse_timestamp(timestamp: str) -> datetime:
+    """ takes timestamp as input & outputs datetime object """
     formats = [
         "%Y-%m-%dT%H:%M:%S.%f",
         "%Y-%m-%dT%H:%M:%S.%f%z",
@@ -24,15 +24,18 @@ def parse_timestamp(timestamp):
     raise ValueError(f"Timestamp '{timestamp}' does not match any supported formats.")
 
 
-
-def format_timestamp(timestamp):
+def format_timestamp(timestamp: datetime or str) -> str:
+    """ takes the datetime object and returns the formatted timestamp """
     if isinstance(timestamp, datetime):
         return timestamp.isoformat()  # Convert datetime to ISO 8601 string
     return timestamp  # If it's already a string, return as is
 
 
-
-def get_new_messages():
+def get_new_messages() -> list[dict]:
+    """
+    fetches all SMS API messages and checks if they are present in DB
+    outputs list of new messages
+    """
     new_messages = []
     messages = sms_api.get_messages(TEAM_NAME)
 
@@ -64,7 +67,8 @@ def get_new_messages():
     return new_messages
 
 
-def main_loop():
+def main_loop() -> None:
+    """ main_loop that regularly checks for new messages and handles them """
     while True:
         new_messages = get_new_messages()
         for message_dict in new_messages:

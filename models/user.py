@@ -6,7 +6,7 @@ from models import BaseModel
 
 
 class User(BaseModel):
-    """ Data class for users. """
+    """ Data class for users """
     __tablename__ = "user"
 
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -19,7 +19,9 @@ class User(BaseModel):
     )
 
     def __repr__(self):
+        """ returns text representation of the object """
         return f"<User id={self.id} phone_number={self.phone_number}>"
 
     def __eq__(self, other):
+        """ returns boolean comparison """
         return self.id == other.id and self.phone_number == other.phone_number
