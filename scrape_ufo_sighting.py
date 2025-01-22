@@ -17,7 +17,7 @@ def fetch_ufo_data():
 
     rows = table.find_all("tr")[1:]
     data = []
-    count = 0
+
     for row in rows:
         cells = row.find_all("td")
         if cells:
@@ -39,7 +39,6 @@ def format_ufo_data(data, max_sightings=3, randomize=True):
     if randomize:
         random.shuffle(data)
 
-    print(data)
     formatted_sightings = []
 
     for row in data[:max_sightings]:
