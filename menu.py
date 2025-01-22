@@ -12,8 +12,9 @@ def show_menu(number: str) -> None:
             "2. **Romulan Dictionary**\n- Translate words into Romulan.\n\n"
             "3. **API ISS Information**\n- Get real-time data about the International Space Station (ISS).\n\n"
             "4. **UFO Sightings**\n- Get the latest UFO sightings data.\n\n"
+            "5. **Klingon Translator**\n- Translate phrases into Klingon.\n\n"
             "9. **Exit ('I am OK')**\n- Leave the space adventure. We hope to see you again soon!\n\n\n"
-            "DON'T PANIC")
+            "DON'T PANIC!")
 
     send_sms_number([{number: menu}])
 
@@ -58,6 +59,9 @@ def process_selection(number: str, selection: str) -> None:
         condensed_data = format_ufo_data(ufo_data)
         text = f"Prepare yourself! These UFO sightings are real:\n{condensed_data}"
         send_sms_number([{number: text}])
+
+    elif selection == "5":
+        send_sms_number([{number: "Type a message starting with 'Klingon'\n\nLike this: 'Klingon Thank you Warrior'"}])
 
     elif selection == "9":
         send_sms_number([{number: send_exit_message("exit")}])
