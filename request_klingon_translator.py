@@ -37,6 +37,6 @@ def process_translation_request(input_text, api_key):
 if __name__ == "__main__":
 
     api_key = "X-Funtranslations-Api-Secret"  # Official key - no need to .env
-    user_input = input("Enter your text - keep smiling while doing it: ")
+    user_input = input("Enter your text! Don't smile - showing teeth is a thing: ")
     result = process_translation_request(user_input, api_key)
     print(result)
