@@ -17,12 +17,17 @@ def fetch_ufo_data():
 
     rows = table.find_all("tr")[1:]
     data = []
-
+    count = 0
     for row in rows:
         cells = row.find_all("td")
         if cells:
-            data.append([cell.text.strip() for cell in cells])
-
+            for cell in cells:
+                if "href" in str(cell):
+                    link_tag = cell.find('a')
+                    href_value = link_tag.get('href')
+                    data.append(
+                        ["https://nuforc.org" + href_value, cells[6].text])
+                    break
     return data
 
 
@@ -34,22 +39,16 @@ def format_ufo_data(data, max_sightings=3, randomize=True):
     if randomize:
         random.shuffle(data)
 
+    print(data)
     formatted_sightings = []
-    for row in data[:max_sightings]:
-        date_time = row[1]
-        city = row[2]
-        country = row[4]
-        # shape = row[5]
-        description = row[6].strip()[:100]
 
-        formatted_sighting = f"{date_time}:{city}:{country}:{description}"
+    for row in data[:max_sightings]:
+        formatted_sighting = f"{row[0]} : {row[1]}"
         formatted_sightings.append(formatted_sighting)
 
     return "\n".join(formatted_sightings)
 
-
-
-# def format_ufo_data(data, max_sightings=3):
+    # def format_ufo_data(data, max_sightings=3):
     """Classic Format of Reports from data"""
     # if not data:
     #     return "No UFO sightings data available - don't panic!"
@@ -67,19 +66,13 @@ def format_ufo_data(data, max_sightings=3, randomize=True):
     # return "\n".join(formatted_sightings)
 
 
-
 def main():
     # print("Fetching UFO sightings data...")
     ufo_data = fetch_ufo_data()
 
-    if isinstance(ufo_data, str):
-        print(ufo_data)
-        return
-
     condensed_data = format_ufo_data(ufo_data)
     print("\nPrepare yourself! These UFO sightings are real: \n")
     print(condensed_data)
-
 
 
 if __name__ == "__main__":
