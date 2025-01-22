@@ -1,17 +1,17 @@
+from api import send_sms_number
 from exitHandler import send_exit_message
 from request_iss_data import iss_tracker
-from api import send_sms_number
-from request_iss_data import iss_tracker
-from scrape_ufo_sighting import fetch_ufo_data, display_ufo_data
+from scrape_ufo_sighting import fetch_ufo_data, format_ufo_data
 
 
 # Function to show the menu to the user
 def show_menu(number):
     menu = ("Welcome, Space Traveler!\n\nPlease choose an option:\n\n"
             "1. **Diplomatic Tips & Tricks**\n- Learn how to navigate space diplomacy with humor!\n\n"
-            "2. **UFO Data**\n- Stay updated on the latest UFO sightings and mysterious space phenomena!\n\n"
+            "2. **Romulan Dictionary**\n- Translate words into Romulan.\n\n"
             "3. **API ISS Information**\n- Get real-time data about the International Space Station (ISS).\n\n"
-            "4. **Exit ('I am OK')**\n- Leave the space adventure. We hope to see you again soon!")
+            "4. **UFO Sightings**\n- Get the latest UFO sightings data.\n\n"
+            "9. **Exit ('I am OK')**\n- Leave the space adventure. We hope to see you again soon!")
 
     send_sms_number([{number: menu}])
 
@@ -35,10 +35,7 @@ def process_selection(number, selection):
         diplomatic_tips(number)
 
     elif selection == "2":
-        send_sms_number([{number: "You selected: UFO Data."}])
-        ufo_data = fetch_ufo_data()
-        print("\nHide! Latest UFO sightings: \n")
-        display_ufo_data(ufo_data)
+        send_sms_number([{number: "Type a message starting with 'Romulan'\n\nLike this: 'Romulan Hello'"}])
 
     elif selection == "3":
         # We should not send multiple SMS for one entry.
@@ -55,6 +52,12 @@ def process_selection(number, selection):
         send_sms_number([{number: text}])
 
     elif selection == "4":
+        ufo_data = fetch_ufo_data()
+        condensed_data = format_ufo_data(ufo_data)
+        text = f"Prepare yourself! These UFO sightings are real:\n{condensed_data}"
+        send_sms_number([{number: text}])
+
+    elif selection == "9":
         send_sms_number([{number: send_exit_message("exit")}])
     else:
         send_sms_number([{number: "Invalid selection. Please try again."}])
