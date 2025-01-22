@@ -2,6 +2,13 @@ import requests
 from bs4 import BeautifulSoup
 
 def fetch_romulan_translation(letter, target_word):
+    """
+    fetch & return work from Romulan language dictionary
+
+    :param letter: first letter of the word for targeting the corresponding url
+    :param target_word: word to translate
+    :return: word translated in Romulan or error message if not found
+    """
     BASE_URL = "http://www.rihannsu.org/arch/www.rihan.org/drupal/dictionary/"
     url = f"{BASE_URL}{letter}.html"
 
@@ -29,6 +36,7 @@ def fetch_romulan_translation(letter, target_word):
 
 
 def english_to_romulan(word: str) -> str:
+    """ input word English to Romulan output """
 
     first_letter = word[0].lower()
 

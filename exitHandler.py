@@ -1,12 +1,9 @@
-def send_exit_message(message):
+def send_exit_message(message: str) -> str:
     """
-    Generate an exit message when user sends 'exit'.
-    
-    Args:
-        message (str): The message received from the user
-        
-    Returns:
-        str: A farewell message if 'exit' is in the message, empty string otherwise
+    Generate an exit message when user sends 'exit'
+
+    :param message: input message
+    :return: a farewell message if 'exit' is in the message, empty string otherwise
     """
     sms_text = ""
     if "exit" in message.lower():

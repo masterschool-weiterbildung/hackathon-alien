@@ -1,9 +1,11 @@
-import requests
-from bs4 import BeautifulSoup
 import random
 
+import requests
+from bs4 import BeautifulSoup
 
-def fetch_ufo_data():
+
+def fetch_ufo_data() -> list or str:
+    """ fetch data and return it or an error message """
     url = "https://nuforc.org/subndx/?id=all"
     response = requests.get(url)
     if response.status_code != 200:
@@ -31,9 +33,9 @@ def fetch_ufo_data():
     return data
 
 
-def format_ufo_data(data, max_sightings=3, randomize=True):
+def format_ufo_data(data: list or str, max_sightings: int = 3, randomize: bool = True) -> str:
     """Formatting reports with random data"""
-    if not data:
+    if not data or type(data) == str:
         return "No UFO sightings data available - don't panic!"
 
     if randomize:
@@ -47,27 +49,29 @@ def format_ufo_data(data, max_sightings=3, randomize=True):
 
     return "\n".join(formatted_sightings)
 
-    # def format_ufo_data(data, max_sightings=3):
-    """Classic Format of Reports from data"""
-    # if not data:
-    #     return "No UFO sightings data available - don't panic!"
-    #
-    # formatted_sightings = []
-    # for row in data[:max_sightings]:
-    #     date_time = row[1]
-    #     city = row[2]
-    #     shape = row[5]
-    #     description = row[6]
-    #
-    #     formatted_sighting = f"Date/Time: {date_time}, City: {city}, Shape: {shape}, Description: {description}"
-    #     formatted_sightings.append(formatted_sighting)
-    #
-    # return "\n".join(formatted_sightings)
+
+def format_ufo_data_elements(data: list, max_sightings: int = 3) -> str:
+    """Classic Format of Reports from data """
+    if not data:
+        return "No UFO sightings data available - don't panic!"
+
+    formatted_sightings = []
+    for row in data[:max_sightings]:
+        date_time = row[1]
+        city = row[2]
+        shape = row[5]
+        description = row[6]
+
+        formatted_sighting = f"Date/Time: {date_time}, City: {city}, Shape: {shape}, Description: {description}"
+        formatted_sightings.append(formatted_sighting)
+
+    return "\n".join(formatted_sightings)
 
 
 def main():
     # print("Fetching UFO sightings data...")
     ufo_data = fetch_ufo_data()
+    # ufo_data = "Error: Unable to locate the sightings table on the page - don't panic!"
 
     condensed_data = format_ufo_data(ufo_data)
     print("\nPrepare yourself! These UFO sightings are real: \n")

@@ -1,11 +1,14 @@
 import requests
 
-def translate_to_klingon(text, api_key):
+def translate_to_klingon(text: str) -> str:
+    """
+    sends API request & text to English-Klingon Translator
+    returns translated text or error warning
+    """
     url = f"https://api.funtranslations.com/translate/klingon.json?text={text}"
-    headers = {"X-Funtranslations-Api-Secret": api_key}
 
     try:
-        response = requests.get(url, headers=headers)
+        response = requests.get(url)
 
         if response.status_code == 200:
             data = response.json()
@@ -19,7 +22,8 @@ def translate_to_klingon(text, api_key):
         return f"Request failed: {e}"
 
 
-def process_translation_request(input_text, api_key):
+def process_translation_request(input_text: str) -> str:
+    """ processes user input. Returns translated text or error message """
     input_text = input_text.strip()
     if not input_text:
         return "No need to be nervous just because they are huge armed warriors - please enter a text"
@@ -27,7 +31,7 @@ def process_translation_request(input_text, api_key):
     if input_text.isdigit():
         return "Klingon warriors aren't impressed by numbers. Rather enter some words!"
 
-    translation = translate_to_klingon(input_text, api_key)
+    translation = translate_to_klingon(input_text)
     if translation:
         return f"Original: {input_text}\nKlingon: {translation}"
     else:
@@ -36,7 +40,6 @@ def process_translation_request(input_text, api_key):
 
 if __name__ == "__main__":
 
-    api_key = "X-Funtranslations-Api-Secret"  # Official key - no need to .env
-    user_input = input("Enter your text - keep smiling while doing it: ")
-    result = process_translation_request(user_input, api_key)
+    user_input = input("Enter your text! Don't smile - showing teeth is a thing: ")
+    result = process_translation_request(user_input)
     print(result)

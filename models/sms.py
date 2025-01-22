@@ -21,7 +21,9 @@ class SMS(BaseModel):
     )
 
     def __repr__(self):
+        """ returns text representation of the object """
         return f"<SMS id={self.id} message={self.message} created_at={self.created_at}>"
 
     def __eq__(self, other):
+        """ returns boolean comparison """
         return self.id == other.id and self.message == other.message and self.created_at == other.created_at
