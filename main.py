@@ -4,6 +4,7 @@ import time
 
 from api import SMSAPI
 from db import get_user, database_setup, add_completed_sms_to_user
+from fetch_romulan_dict import english_to_romulan
 from menu import show_menu, diplomatic_tips, process_selection
 from utility import TEAM_NAME
 
@@ -73,6 +74,9 @@ def main_loop():
                 show_menu(number)
             elif message["text"].isdigit():
                 process_selection(number, message["text"])
+            elif message["text"].lower().startswith("romulan"):
+                text = message["text"][8:]
+                sms_api.send_sms(number, english_to_romulan(text))
             user = get_user(number)
             add_completed_sms_to_user(user, message["text"], datetime.strptime(message["receivedAt"], "%Y-%m-%dT%H:%M:%S.%f%z"))
         time.sleep(10)
