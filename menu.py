@@ -1,13 +1,14 @@
 from api import send_sms_number
 from exitHandler import send_exit_message
 from request_iss_data import iss_tracker
+from request_planet_info import give_planet_data
 from scrape_ufo_sighting import fetch_ufo_data, format_ufo_data
 
 
 # Function to show the menu to the user
 def show_menu(number):
     menu = ("Welcome, Space Traveler!\n\nPlease choose an option:\n\n"
-            "1. **Diplomatic Tips & Tricks**\n- Learn how to navigate space diplomacy with humor!\n\n"
+            "1. **Planet Information**\n- Get information about planets in the solar system.\n\n"
             "2. **Romulan Dictionary**\n- Translate words into Romulan.\n\n"
             "3. **API ISS Information**\n- Get real-time data about the International Space Station (ISS).\n\n"
             "4. **UFO Sightings**\n- Get the latest UFO sightings data.\n\n"
@@ -31,8 +32,7 @@ def diplomatic_tips(number):
 def process_selection(number, selection):
     """Handle the user’s menu selection"""
     if selection == "1":
-        send_sms_number([{number: "You selected: Diplomatic Tips & Tricks."}])
-        diplomatic_tips(number)
+        send_sms_number([{number: give_planet_data()}])
 
     elif selection == "2":
         send_sms_number([{number: "Type a message starting with 'Romulan'\n\nLike this: 'Romulan Hello'"}])
