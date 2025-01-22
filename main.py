@@ -1,10 +1,11 @@
 from datetime import datetime
 import time
 
-from api import SMSAPI
+from api import SMSAPI, send_sms_number
 from db import get_user, database_setup, add_completed_sms_to_user
 from fetch_romulan_dict import english_to_romulan
 from menu import show_menu, process_selection
+from request_klingon_translator import process_translation_request
 from utility import TEAM_NAME
 
 sms_api = SMSAPI()
@@ -61,7 +62,8 @@ def get_new_messages() -> list[dict]:
                     if reformatted_message_datetime == reformatted_completed_message_datetime:
                         duplicate = True
             if not duplicate:
-                print(f"Got new message from {number}: {message_text}")
+                obfuscated_number = f"{(len(number) - 3) * '*'}{number[-3:]}"
+                print(f"Got new message from {obfuscated_number}: {message_text}")
                 new_messages.append({"number": number, "message": message})
 
     return new_messages
@@ -80,7 +82,10 @@ def main_loop() -> None:
                 process_selection(number, message["text"])
             elif message["text"].lower().startswith("romulan"):
                 text = message["text"][8:]
-                sms_api.send_sms(number, english_to_romulan(text))
+                send_sms_number([{number: english_to_romulan(text)}])
+            elif message["text"].lower().startswith("klingon"):
+                text = message["text"][8:]
+                send_sms_number([{number: process_translation_request(text)}])
             user = get_user(number)
             add_completed_sms_to_user(user, message["text"], datetime.strptime(message["receivedAt"], "%Y-%m-%dT%H:%M:%S.%f%z"))
         time.sleep(10)
