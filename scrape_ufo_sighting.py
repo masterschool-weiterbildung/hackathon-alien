@@ -40,9 +40,9 @@ def format_ufo_data(data, max_sightings=3, randomize=True):
         city = row[2]
         country = row[4]
         # shape = row[5]
-        description = row[6]
+        description = row[6].strip()[:100]
 
-        formatted_sighting = f"Date/Time: {date_time}, City: {city} Country: {country}, Description: {description}"
+        formatted_sighting = f"{date_time}:{city}:{country}:{description}"
         formatted_sightings.append(formatted_sighting)
 
     return "\n".join(formatted_sightings)
