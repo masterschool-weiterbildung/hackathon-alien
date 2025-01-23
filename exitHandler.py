@@ -11,6 +11,6 @@ def send_exit_message(message: str) -> str:
             "👋 Thanks for exploring the *Alien Abduction Guide*! 🛸\n\n"
             "We hope you enjoyed your cosmic journey. Stay safe out there "
             "and remember - the truth is out there! ✨🌠\n\n" 
-            "Text 'Hi' anytime to start a new adventure! 🚀"
+            "Text 'Help!' anytime to start a new adventure! 🚀"
         )
     return sms_text
